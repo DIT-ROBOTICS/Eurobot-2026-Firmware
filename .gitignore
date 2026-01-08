@@ -3,6 +3,9 @@
 .recommenders/
 .settings/
 RemoteSystemsTempFiles/
+.cproject
+.mxproject
+.project
 
 # Debug and Build Files
 Debug/
