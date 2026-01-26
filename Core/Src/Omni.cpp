@@ -2,13 +2,13 @@
 
 #include "DC_Motor.h"
 #include "Dead_Wheel.h"
-#include "geometry_msgs/Twist.h"
+//#include "geometry_msgs/Twist.h"
 
 // Encoder for Motor
-extern TIM_HandleTypeDef htim1;
-extern TIM_HandleTypeDef htim2;
-extern TIM_HandleTypeDef htim3;
-extern TIM_HandleTypeDef htim4;
+//extern TIM_HandleTypeDef htim1;
+//extern TIM_HandleTypeDef htim2;
+//extern TIM_HandleTypeDef htim3;
+//extern TIM_HandleTypeDef htim4;
 
 // Encoder for Dead Wheel
 extern TIM_HandleTypeDef htim5;
@@ -16,27 +16,34 @@ extern TIM_HandleTypeDef htim8;
 extern TIM_HandleTypeDef htim23;
 extern TIM_HandleTypeDef htim24;
 
-// Motor PWM
-extern TIM_HandleTypeDef htim12;
-extern TIM_HandleTypeDef htim15;
+//// Motor PWM
+//extern TIM_HandleTypeDef htim12;
+//extern TIM_HandleTypeDef htim15;
 
 Omni omni;
 
 CAR_DIMENSION CAR_RADIUS;
 
+double Info_Vx = 0.0;
+double Info_Vy = 0.0;
+double Info_Omega = 0.0;
+double Location_Vx = 0.0;
+double Location_Vy = 0.0;
+double Location_Omega = 0.0;
+
 Omni::Omni() {
 }
 
 void Omni::Init() {
-	this->motors[0].Init(0, &htim1, 3.7, 471.0);
-	this->motors[1].Init(1, &htim2, 3.7, 471.0);
-	this->motors[2].Init(2, &htim3, 3.7, 471.0);
-	this->motors[3].Init(3, &htim4, 3.7, 471.0);
+//	this->motors[0].Init(0, &htim1, 3.7, 471.0);
+//	this->motors[1].Init(1, &htim2, 3.7, 471.0);
+//	this->motors[2].Init(2, &htim3, 3.7, 471.0);
+//	this->motors[3].Init(3, &htim4, 3.7, 471.0);
 
-	this->encoders[0].Init(0, &htim5);
+	this->encoders[0].Init(0, &htim24);
 	this->encoders[1].Init(1, &htim8);
 	this->encoders[2].Init(2, &htim23);
-	this->encoders[3].Init(3, &htim24);
+	this->encoders[3].Init(3, &htim5);
 
 	SetCarRadius(CAR_RADIUS);
 
@@ -63,10 +70,14 @@ void Omni::UpdateNowCarInfo_Dead() {
 	double compensation[3] = {1.0, 1.0, 1.0};
 
 	// 2026Ver.
-	NowCarInfo_Dead.Vx = compensation[0] * (-encoders[1].GetVnow() + encoders[3].GetVnow()) / 2.0;
-	NowCarInfo_Dead.Vy = compensation[1] * (-encoders[0].GetVnow() + encoders[2].GetVnow()) / 2.0;
+	NowCarInfo_Dead.Vx = compensation[0] * (encoders[1].GetVnow() - encoders[3].GetVnow()) / 2.0;
+	NowCarInfo_Dead.Vy = compensation[1] * (encoders[0].GetVnow() - encoders[2].GetVnow()) / 2.0;
 	NowCarInfo_Dead.Omega = compensation[2] * (encoders[0].GetVnow() + encoders[1].GetVnow()
 		+ encoders[2].GetVnow() + encoders[3].GetVnow()) / (CarRadius_.Sq * 4.0);
+
+	Info_Vx = NowCarInfo_Dead.Vx;
+	Info_Vy = NowCarInfo_Dead.Vy;
+	Info_Omega = NowCarInfo_Dead.Omega;
 }
 void Omni::UpdateCarLocation_Dead() {
 	double e[4];
@@ -76,9 +87,13 @@ void Omni::UpdateCarLocation_Dead() {
 	double compensation[3] = {1.0, 1.0, 1.0};
 
 	// 2026Ver.
-	NowCarLocation_Dead.Vx += compensation[0] * (-e[1] + e[3]) / 2.0;
-	NowCarLocation_Dead.Vy += compensation[1] * (-e[0] + e[2]) / 2.0;
+	NowCarLocation_Dead.Vx += compensation[0] * (e[1] - e[3]) / 2.0;
+	NowCarLocation_Dead.Vy += compensation[1] * (e[0] - e[2]) / 2.0;
 	NowCarLocation_Dead.Omega += compensation[2] * (e[0] + e[1] + e[2] + e[3]) / (CarRadius_.Sq * 4.0);
+
+	Location_Vx = NowCarLocation_Dead.Vx;
+	Location_Vy = NowCarLocation_Dead.Vy;
+	Location_Omega = NowCarLocation_Dead.Omega;
 }
 
 // ** Driving Wheel Encoder **
@@ -142,19 +157,19 @@ void Omni::UpdateEncoderVnow() {
 }
 
 // TODO : Check for the DIR
-void Omni::Move() {
-	// DIR
-	HAL_GPIO_WritePin(GPIOD, GPIO_PIN_8, (motors[0].u > 0) ? GPIO_PIN_SET : GPIO_PIN_RESET);
-	HAL_GPIO_WritePin(GPIOB, GPIO_PIN_13, (motors[1].u > 0) ? GPIO_PIN_RESET : GPIO_PIN_SET);
-	HAL_GPIO_WritePin(GPIOE, GPIO_PIN_3, (motors[2].u > 0) ? GPIO_PIN_RESET : GPIO_PIN_SET);
-	HAL_GPIO_WritePin(GPIOC, GPIO_PIN_13, (motors[3].u > 0) ? GPIO_PIN_SET : GPIO_PIN_RESET);
-
-	// PWM
-	__HAL_TIM_SET_COMPARE(&htim12, TIM_CHANNEL_2, int(fabs(motors[0].u) * MOTOR_PWM_PULSE));
-	__HAL_TIM_SET_COMPARE(&htim12, TIM_CHANNEL_1, int(fabs(motors[1].u) * MOTOR_PWM_PULSE));
-	__HAL_TIM_SET_COMPARE(&htim15, TIM_CHANNEL_1, int(fabs(motors[2].u) * MOTOR_PWM_PULSE));
-	__HAL_TIM_SET_COMPARE(&htim15, TIM_CHANNEL_2, int(fabs(motors[3].u) * MOTOR_PWM_PULSE));
-}
+//void Omni::Move() {
+//	// DIR
+//	HAL_GPIO_WritePin(GPIOD, GPIO_PIN_8, (motors[0].u > 0) ? GPIO_PIN_SET : GPIO_PIN_RESET);
+//	HAL_GPIO_WritePin(GPIOB, GPIO_PIN_13, (motors[1].u > 0) ? GPIO_PIN_RESET : GPIO_PIN_SET);
+//	HAL_GPIO_WritePin(GPIOE, GPIO_PIN_3, (motors[2].u > 0) ? GPIO_PIN_RESET : GPIO_PIN_SET);
+//	HAL_GPIO_WritePin(GPIOC, GPIO_PIN_13, (motors[3].u > 0) ? GPIO_PIN_SET : GPIO_PIN_RESET);
+//
+//	// PWM
+//	__HAL_TIM_SET_COMPARE(&htim12, TIM_CHANNEL_2, int(fabs(motors[0].u) * MOTOR_PWM_PULSE));
+//	__HAL_TIM_SET_COMPARE(&htim12, TIM_CHANNEL_1, int(fabs(motors[1].u) * MOTOR_PWM_PULSE));
+//	__HAL_TIM_SET_COMPARE(&htim15, TIM_CHANNEL_1, int(fabs(motors[2].u) * MOTOR_PWM_PULSE));
+//	__HAL_TIM_SET_COMPARE(&htim15, TIM_CHANNEL_2, int(fabs(motors[3].u) * MOTOR_PWM_PULSE));
+//}
 
 // TODO: Check for kinematics - robot to wheel
 // ------------------------
