@@ -132,3 +132,49 @@ pip-delete-this-directory.txt
 
 # Logs
 *.log
+
+# ROS/ROSSerial Files (auto-generated)
+Core/Inc/ros.h
+Core/Inc/ros/
+Core/Inc/actionlib/
+Core/Inc/actionlib_msgs/
+Core/Inc/actionlib_tutorials/
+Core/Inc/beginner_tutorials/
+Core/Inc/bond/
+Core/Inc/control_msgs/
+Core/Inc/control_toolbox/
+Core/Inc/controller_manager_msgs/
+Core/Inc/diagnostic_msgs/
+Core/Inc/duration.cpp
+Core/Inc/time.cpp
+Core/Inc/dynamic_reconfigure/
+Core/Inc/gazebo_msgs/
+Core/Inc/geometry_msgs/
+Core/Inc/laser_assembler/
+Core/Inc/map_msgs/
+Core/Inc/nav_msgs/
+Core/Inc/nodelet/
+Core/Inc/pcl_msgs/
+Core/Inc/polled_camera/
+Core/Inc/roscpp/
+Core/Inc/roscpp_tutorials/
+Core/Inc/rosgraph_msgs/
+Core/Inc/rospy_tutorials/
+Core/Inc/rosserial_msgs/
+Core/Inc/sensor_msgs/
+Core/Inc/shape_msgs/
+Core/Inc/smach_msgs/
+Core/Inc/std_msgs/
+Core/Inc/std_srvs/
+Core/Inc/stereo_msgs/
+Core/Inc/tf/
+Core/Inc/tf2_msgs/
+Core/Inc/theora_image_transport/
+Core/Inc/topic_tools/
+Core/Inc/trajectory_msgs/
+Core/Inc/turtle_actionlib/
+Core/Inc/turtlesim/
+Core/Inc/visualization_msgs/
+
+# STM32 Hardware abstraction
+Core/Inc/STM32Hardware.h

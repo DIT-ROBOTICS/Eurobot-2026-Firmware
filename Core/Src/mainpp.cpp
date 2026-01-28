@@ -12,7 +12,7 @@ extern TIM_HandleTypeDef htim15;
 
 void main_function() {
 	// Init
-//	ROS::setup();
+	ROS::setup();
 	omni.Init();
 
 //	// For LED blink
