@@ -44,7 +44,7 @@ ros::Subscriber<std_msgs::String> FinishSub("/mission0", ROS::Finish_CB);
 //ros::Subscriber<std_msgs::Float64> CarRadius_Sub("/STM_CarRadius", ROS::Test_CarRadius_CB);
 #endif
 
-ros::Publisher CarVelPub_Dead("odoo_googoogoo", &CarVnow_Dead);
+ros::Publisher CarVelPub_Dead("wheel_pose", &CarVnow_Dead);
 ros::Publisher CarVelPub_Driving("driving_duaiduaiduai", &CarVnow_Driving);
 ros::Publisher ResetNavigation("stopRobot", &stop);
 

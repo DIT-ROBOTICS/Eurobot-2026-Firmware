@@ -40,7 +40,6 @@ void Encoder::UpdateVnow() {
 
     Record_CNT();
     Vnow = CNT * CONST_FOR_ENCODER[num];  // Unit : m / s
-//    Vnow = continue_CNT * 2 * 3.14159 * radius / Const / span;
 
     // Finally, reset the counter CNT
     __HAL_TIM_SET_COUNTER(TIM, 0);
@@ -52,7 +51,6 @@ void Encoder::Record_CNT() {
 
 double Encoder::MoveDis() {
     double dis = continue_CNT * CONST_FOR_ENCODER[num];
-//    double dis = continue_CNT * 2 * 3.14159 * radius / Const;
 
     continue_CNT = 0;
 

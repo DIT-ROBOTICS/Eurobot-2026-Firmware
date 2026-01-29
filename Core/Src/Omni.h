@@ -37,7 +37,7 @@ public:
 	double GetMotorVnow(int index);
 
 	// Set GoalCarInfo and Update each motor Vgoal.
-	void SetGoalCarInfo(double Vx, double Vy, double Omega);
+	void SetGoalCarInfo(float Vx, float Vy, float Omega);
 
 	// Update each motor's PID value and set PWM.
 	void Update_PID();

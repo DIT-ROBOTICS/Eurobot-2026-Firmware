@@ -24,13 +24,6 @@ Omni omni;
 
 CAR_DIMENSION CAR_RADIUS;
 
-double Info_Vx = 0.0;
-double Info_Vy = 0.0;
-double Info_Omega = 0.0;
-double Location_Vx = 0.0;
-double Location_Vy = 0.0;
-double Location_Omega = 0.0;
-
 Omni::Omni() {
 }
 
@@ -75,10 +68,6 @@ void Omni::UpdateNowCarInfo_Dead() {
 	NowCarInfo_Dead.Vy = compensation[1] * (encoders[0].GetVnow() - encoders[2].GetVnow()) / 2.0;
 	NowCarInfo_Dead.Omega = compensation[2] * (encoders[0].GetVnow() + encoders[1].GetVnow()
 		+ encoders[2].GetVnow() + encoders[3].GetVnow()) / (CarRadius_.Sq * 4.0);
-
-	Info_Vx = NowCarInfo_Dead.Vx;
-	Info_Vy = NowCarInfo_Dead.Vy;
-	Info_Omega = NowCarInfo_Dead.Omega;
 }
 void Omni::UpdateCarLocation_Dead() {
 	double e[4];
@@ -91,10 +80,6 @@ void Omni::UpdateCarLocation_Dead() {
 	NowCarLocation_Dead.Vx += compensation[0] * (e[1] - e[3]) / 2.0;
 	NowCarLocation_Dead.Vy += compensation[1] * (e[0] - e[2]) / 2.0;
 	NowCarLocation_Dead.Omega += compensation[2] * (e[0] + e[1] + e[2] + e[3]) / (CarRadius_.Sq * 4.0);
-
-	Location_Vx = NowCarLocation_Dead.Vx;
-	Location_Vy = NowCarLocation_Dead.Vy;
-	Location_Omega = NowCarLocation_Dead.Omega;
 }
 
 // ** Driving Wheel Encoder **
@@ -135,7 +120,7 @@ double Omni::GetMotorVnow(int index) {
 }
 
 // Set all motors' velocity base on Car Vgoal.
-void Omni::SetGoalCarInfo(double Vx, double Vy, double Omega) {
+void Omni::SetGoalCarInfo(float Vx, float Vy, float Omega) {
 	this->GoalCarInfo.Vx = Vx;
 	this->GoalCarInfo.Vy = Vy;
 	this->GoalCarInfo.Omega = Omega;

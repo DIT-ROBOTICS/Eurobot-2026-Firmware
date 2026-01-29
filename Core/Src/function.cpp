@@ -8,9 +8,9 @@
 #include <algorithm>
 #include "Omni.h"
 
-double Vx_goal = 0.0;
-double Vy_goal = 0.0;
-double Vz_goal = 0.0;
+float Vx_goal = 0.0;
+float Vy_goal = 0.0;
+float Vz_goal = 0.0;
 int b = 0;
 
 // ROS spinOnce
@@ -41,7 +41,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
 
 		// there is a problem in setting Vgoal
 		// hardcode for test
-		omni.SetGoalCarInfo(0.02, 0 ,0);
+//		omni.SetGoalCarInfo(Vx_goal, Vy_goal ,Vz_goal);
 		// omni.SetGoalCarInfo(Vx_goal, Vy_goal, Vz_goal);
 
 
