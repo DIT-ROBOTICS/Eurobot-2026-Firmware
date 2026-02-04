@@ -39,7 +39,7 @@ void Encoder::UpdateVnow() {
     CNT = __HAL_TIM_GET_COUNTER(TIM);
 
     Record_CNT();
-    Vnow = CNT * CONST_FOR_ENCODER[num];  // Unit : m / s
+    Vnow = CNT * CONST_FOR_ENCODER[num]/0.001;  // Unit : m / s
 
     // Finally, reset the counter CNT
     __HAL_TIM_SET_COUNTER(TIM, 0);
