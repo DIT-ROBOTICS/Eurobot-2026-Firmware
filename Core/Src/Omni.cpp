@@ -24,20 +24,22 @@ Omni omni;
 
 CAR_DIMENSION CAR_RADIUS;
 
+double x =0.0;
+
 Omni::Omni() {
 }
 
 void Omni::Init() {
 	// the PI parameters should be modified.
-	this->motors[0].Init(2, &htim1, 3.7, 471.0);
-	this->motors[1].Init(3, &htim2, 3.7, 471.0);
-	this->motors[2].Init(0, &htim4, 3.7, 471.0);
-	this->motors[3].Init(1, &htim3, 3.7, 471.0);
+	this->motors[2].Init(2, &htim1, 3.7, 471.0);
+	this->motors[3].Init(3, &htim2, 3.7, 471.0);
+	this->motors[0].Init(0, &htim4, 3.7, 471.0);
+	this->motors[1].Init(1, &htim3, 3.7, 471.0);
 
-	this->encoders[0].Init(2, &htim24);
-	this->encoders[1].Init(3, &htim8);
-	this->encoders[2].Init(0, &htim23);
-	this->encoders[3].Init(1, &htim5);
+	this->encoders[2].Init(2, &htim24);
+	this->encoders[3].Init(3, &htim8);
+	this->encoders[0].Init(0, &htim23);
+	this->encoders[1].Init(1, &htim5);
 
 	SetCarRadius(CAR_RADIUS);
 
@@ -80,6 +82,8 @@ void Omni::UpdateCarLocation_Dead() {
 	NowCarLocation_Dead.Vx += compensation[0] * (e[1] - e[3]) / 2.0;
 	NowCarLocation_Dead.Vy += compensation[1] * (e[0] - e[2]) / 2.0;
 	NowCarLocation_Dead.Omega += compensation[2] * (e[0] + e[1] + e[2] + e[3]) / (CarRadius_.Sq * 4.0);
+
+	x = NowCarLocation_Dead.Vx;
 }
 
 // ** Driving Wheel Encoder **
