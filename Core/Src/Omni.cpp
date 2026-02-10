@@ -153,16 +153,16 @@ void Omni::UpdateEncoderVnow() {
 // TODO : Check for the DIR
 void Omni::Move() {
 	// DIR
-	HAL_GPIO_WritePin(GPIOB, GPIO_PIN_13, (motors[0].u > 0) ? GPIO_PIN_RESET : GPIO_PIN_SET);
-	HAL_GPIO_WritePin(GPIOD, GPIO_PIN_8, (motors[1].u > 0) ? GPIO_PIN_RESET : GPIO_PIN_SET);
-	HAL_GPIO_WritePin(GPIOE, GPIO_PIN_3, (motors[2].u > 0) ? GPIO_PIN_RESET : GPIO_PIN_SET);
-	HAL_GPIO_WritePin(GPIOC, GPIO_PIN_13, (motors[3].u > 0) ? GPIO_PIN_RESET : GPIO_PIN_SET);
+	HAL_GPIO_WritePin(GPIOB, GPIO_PIN_13, (motors[2].u > 0) ? GPIO_PIN_RESET : GPIO_PIN_SET);
+	HAL_GPIO_WritePin(GPIOD, GPIO_PIN_8, (motors[3].u > 0) ? GPIO_PIN_RESET : GPIO_PIN_SET);
+	HAL_GPIO_WritePin(GPIOE, GPIO_PIN_3, (motors[0].u > 0) ? GPIO_PIN_RESET : GPIO_PIN_SET);
+	HAL_GPIO_WritePin(GPIOC, GPIO_PIN_13, (motors[1].u > 0) ? GPIO_PIN_RESET : GPIO_PIN_SET);
 
 	// PWM
-	__HAL_TIM_SET_COMPARE(&htim12, TIM_CHANNEL_2, int(fabs(motors[0].u) * MOTOR_PWM_PULSE));
-	__HAL_TIM_SET_COMPARE(&htim12, TIM_CHANNEL_1, int(fabs(motors[1].u) * MOTOR_PWM_PULSE));
-	__HAL_TIM_SET_COMPARE(&htim15, TIM_CHANNEL_1, int(fabs(motors[2].u) * MOTOR_PWM_PULSE));
-	__HAL_TIM_SET_COMPARE(&htim15, TIM_CHANNEL_2, int(fabs(motors[3].u) * MOTOR_PWM_PULSE));
+	__HAL_TIM_SET_COMPARE(&htim12, TIM_CHANNEL_2, int(fabs(motors[2].u) * MOTOR_PWM_PULSE));
+	__HAL_TIM_SET_COMPARE(&htim12, TIM_CHANNEL_1, int(fabs(motors[3].u) * MOTOR_PWM_PULSE));
+	__HAL_TIM_SET_COMPARE(&htim15, TIM_CHANNEL_1, int(fabs(motors[0].u) * MOTOR_PWM_PULSE));
+	__HAL_TIM_SET_COMPARE(&htim15, TIM_CHANNEL_2, int(fabs(motors[1].u) * MOTOR_PWM_PULSE));
 }
 
 // TODO: Check for kinematics - robot to wheel
